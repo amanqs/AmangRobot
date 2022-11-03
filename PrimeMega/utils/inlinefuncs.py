@@ -126,20 +126,20 @@ async def alive_function(answers):
     )
 
     msg = f"""
-**[ᴘʀɪᴍᴇ ᴍᴇɢᴀ](https://t.me/PrimeMegaBot):**
+**[ᴀᴍᴀɴɢ ʀᴏʙᴏᴛ](https://t.me/AmangRobot_bot):**
 **MainBot:** `{bot_state}`
 **UserBot:** `{ubot_state}`
 **Python:** `{pyver.split()[0]}`
 **Pyrogram:** `{pyrover}`
 **MongoDB:** `{mongover}`
 **Platform:** `{sys.platform}`
-**Profiles:** [BOT](t.me/{BOT_USERNAME}) | [UBOT](t.me/Bukan_guudlooking)
+**Profiles:** [BOT](t.me/{BOT_USERNAME}) | [OWNER](t.me/amwang)
 """
     answers.append(
         InlineQueryResultArticle(
             title="Alive",
             description="Check Bot's Stats",
-            thumb_url="https://telegra.ph/file/74820c5c29d87eca403e0.jpg",
+            thumb_url="https://telegra.ph/file/9b699886c26d894acf36e.jpg",
             input_message_content=InputTextMessageContent(
                 msg, disable_web_page_preview=True
             ),
