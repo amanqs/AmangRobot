@@ -84,17 +84,19 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-*Hello {} !*
-────────────────────────
-I'm a powerful group management bot built to help you manage your group!
-────────────────────
-Hit the /help or tap on button to se available command on Me.
+*Hai {} !* Nama saya 𝑨𝑴𝑮-𝑹𝒐𝒃𝒐𝒕.
+
+𝑨𝑴𝑮-𝑹𝒐𝒃𝒐𝒕 merupakan bot manage dan musik.
+
+• Jangan ragu untuk menambahkan saya kegroupmu.
+• Gunakan Perintah » /help « untuk Mengetahui Fitur Lengkap saya
+• Managed With By : [ᴀᴍᴀɴɢ](https://t.me/amwang)
 """
 
 buttons = [
         [
         InlineKeyboardButton(
-            text=f"➕️ Add {BOT_NAME} to your group ➕️", url=f"t.me/{BOT_USERNAME}?startgroup=true"
+            text=f"➕️ Tambahkan {BOT_NAME} Ke Grup ➕️", url=f"t.me/{BOT_USERNAME}?startgroup=true"
         ),
     ],
     [
@@ -117,7 +119,7 @@ Click on the button bellow to get description about specifics command."""
 PRIME_IMG = "https://telegra.ph/file/b9fa4e1360d0a872a3cd5.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
- You can support the project by contacting @Bukan_guudlooking \
+ You can support the project by contacting @amwang \
  Supporting isnt always financial! \
  Those who cannot provide monetary support are welcome to help us develop the bot at ."""
 
