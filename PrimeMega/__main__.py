@@ -84,13 +84,13 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-*Hai {} !* Nama saya 𝑨𝑴𝑮-𝑹𝒐𝒃𝒐𝒕.
+*𝘏𝘢𝘭𝘰 {} !*  𝘕𝘢𝘮𝘢 𝘴𝘢𝘺𝘢 𝘈𝘮𝘢𝘯𝘨𝘙𝘰𝘣𝘰𝘵.
 
-𝑨𝑴𝑮-𝑹𝒐𝒃𝒐𝒕 merupakan bot manage dan musik.
+ 𝘈𝘮𝘢𝘯𝘨𝘙𝘰𝘣𝘰𝘵 𝘮𝘦𝘳𝘶𝘱𝘢𝘬𝘢𝘯 𝘣𝘰𝘵 𝘮𝘢𝘯𝘢𝘨𝘦 𝘥𝘢𝘯 𝘮𝘶𝘴𝘪𝘬.
 
-• Jangan ragu untuk menambahkan saya kegroupmu.
-• Gunakan Perintah » /help « untuk Mengetahui Fitur Lengkap saya
-• Managed With By : [ᴀᴍᴀɴɢ](https://t.me/amwang)
+• 𝘑𝘢𝘯𝘨𝘢𝘯 𝘳𝘢𝘨𝘶 𝘶𝘯𝘵𝘶𝘬 𝘮𝘦𝘯𝘢𝘮𝘣𝘢𝘩𝘬𝘢𝘯 𝘴𝘢𝘺𝘢 𝘬𝘦𝘨𝘳𝘰𝘶𝘱𝘮𝘶.
+• 𝘎𝘶𝘯𝘢𝘬𝘢𝘯 𝘗𝘦𝘳𝘪𝘯𝘵𝘢𝘩 » /𝘩𝘦𝘭𝘱 « 𝘶𝘯𝘵𝘶𝘬 𝘔𝘦𝘯𝘨𝘦𝘵𝘢𝘩𝘶𝘪 𝘍𝘪𝘵𝘶𝘳 𝘓𝘦𝘯𝘨𝘬𝘢𝘱 𝘴𝘢𝘺𝘢
+• 𝘔𝘢𝘯𝘢𝘨𝘦𝘥 𝘞𝘪𝘵𝘩 𝘉𝘺 : [ᴀᴍᴀɴɢ](https://t.me/amwang)
 """
 
 buttons = [
@@ -116,7 +116,7 @@ buttons = [
 HELP_STRINGS = """
 Click on the button bellow to get description about specifics command."""
 
-PRIME_IMG = "https://telegra.ph/file/b9fa4e1360d0a872a3cd5.jpg"
+PRIME_IMG = "https://telegra.ph/file/65d8fc573ab4be0cf39f4.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
  You can support the project by contacting @amwang \
