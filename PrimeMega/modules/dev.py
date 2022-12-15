@@ -81,7 +81,7 @@ def restart(update: Update, context: CallbackContext):
 
 LEAVE_HANDLER = CommandHandler("leave", leave, run_async=True)
 GITPULL_HANDLER = CommandHandler("gitpull", gitpull, run_async=True)
-RESTART_HANDLER = CommandHandler("reboot", restart, run_async=True)
+RESTART_HANDLER = CommandHandler("rebootmanage", restart, run_async=True)
 ALLOWGROUPS_HANDLER = CommandHandler("lockdown", allow_groups, run_async=True)
 
 dispatcher.add_handler(ALLOWGROUPS_HANDLER)
