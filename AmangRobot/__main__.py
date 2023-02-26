@@ -104,7 +104,6 @@ buttons = [
     ],
     [
        InlineKeyboardButton(text="📣 Support", url=f"https://t.me/{SUPPORT_CHAT}"),
-       InlineKeyboardButton(text="☕️ Donate", url=f"https://t.me/amwangstore/52"),
     ],
 ]
 
