@@ -20,8 +20,7 @@ async def quotify(messages: list):
 
 
 def getArg(message: Message) -> str:
-    arg = message.text.strip().split(None, 1)[1].strip()
-    return arg
+    return message.text.strip().split(None, 1)[1].strip()
 
 
 def isArgInt(message: Message) -> bool:
@@ -52,13 +51,12 @@ async def quotly_func(client, message: Message):
             count = arg[1]
             messages = await client.get_messages(
                 message.chat.id,
-                [
-                    i
-                    for i in range(
+                list(
+                    range(
                         message.reply_to_message.message_id,
                         message.reply_to_message.message_id + count,
                     )
-                ],
+                ),
                 replies=0,
             )
         else:

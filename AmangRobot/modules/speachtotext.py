@@ -51,7 +51,7 @@ async def _(event):
             }
             data = open(required_file_name, "rb").read()
             response = requests.post(
-                IBM_WATSON_CRED_URL + "/v1/recognize",
+                f"{IBM_WATSON_CRED_URL}/v1/recognize",
                 headers=headers,
                 data=data,
                 auth=("apikey", IBM_WATSON_CRED_PASSWORD),
@@ -71,13 +71,9 @@ async def _(event):
                 end = datetime.now()
                 ms = (end - start).seconds
                 if transcript_response != "":
-                    string_to_show = "TRANSCRIPT: `{}`\nTime Taken: {} seconds\nConfidence: `{}`".format(
-                        transcript_response, ms, transcript_confidence
-                    )
+                    string_to_show = f"TRANSCRIPT: `{transcript_response}`\nTime Taken: {ms} seconds\nConfidence: `{transcript_confidence}`"
                 else:
-                    string_to_show = "TRANSCRIPT: `Nil`\nTime Taken: {} seconds\n\n**No Results Found**".format(
-                        ms
-                    )
+                    string_to_show = f"TRANSCRIPT: `Nil`\nTime Taken: {ms} seconds\n\n**No Results Found**"
                 await event.reply(string_to_show)
             else:
                 await event.reply(r["error"])

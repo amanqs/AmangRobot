@@ -106,7 +106,7 @@ def markdown_help(update: Update, context: CallbackContext):
 def wiki(update: Update, context: CallbackContext):
     kueri = re.split(pattern="wiki", string=update.effective_message.text)
     wikipedia.set_lang("en")
-    if len(str(kueri[1])) == 0:
+    if not str(kueri[1]):
         update.effective_message.reply_text("Enter keywords!")
     else:
         try:
@@ -147,7 +147,6 @@ def wall(update: Update, context: CallbackContext):
     if not query:
         msg.reply_text("Please enter a query!")
         return
-    caption = query
     term = query.replace(" ", "%20")
     json_rep = r.get(
         f"https://wall.alphacoders.com/api2.0/get.php?auth={WALL_API}&method=search&term={term}"
@@ -164,6 +163,7 @@ def wall(update: Update, context: CallbackContext):
         wallpaper = wallpapers[index]
         wallpaper = wallpaper.get("url_image")
         wallpaper = wallpaper.replace("\\", "")
+        caption = query
         context.bot.send_photo(
             chat_id,
             photo=wallpaper,
