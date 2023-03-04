@@ -18,7 +18,7 @@ from telegram.ext import CallbackContext, CommandHandler
 def allow_groups(update: Update, context: CallbackContext):
     args = context.args
     if not args:
-        state = "Lockdown is " + "on" if not AmangRobot.ALLOW_CHATS else "off"
+        state = "off" if AmangRobot.ALLOW_CHATS else "Lockdown is " + "on"
         update.effective_message.reply_text(f"Current state: {state}")
         return
     if args[0].lower() in ["off", "no"]:
@@ -34,8 +34,7 @@ def allow_groups(update: Update, context: CallbackContext):
 @dev_plus
 def leave(update: Update, context: CallbackContext):
     bot = context.bot
-    args = context.args
-    if args:
+    if args := context.args:
         chat_id = str(args[0])
         try:
             bot.leave_chat(int(chat_id))

@@ -36,25 +36,18 @@ from telegram.utils.helpers import mention_html
 def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
     
     if not user_id:
-        reply = "⚠️ User not found"
-        return reply
-
+        return "⚠️ User not found"
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
         if excp.message == "User not found":
-            reply = "I can't seem to find this user"
-            return reply
+            return "I can't seem to find this user"
         raise
 
     if user_id == bot.id:
-        reply = "I'm not gonna MUTE myself, How high are you?"
-        return reply
-
+        return "I'm not gonna MUTE myself, How high are you?"
     if is_user_admin(chat, user_id, member) or user_id in TIGERS:
-        reply = "Can't. Find someone else to mute but not this one."
-        return reply
-
+        return "Can't. Find someone else to mute but not this one."
     return None
 
 
@@ -67,16 +60,13 @@ def mute(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
-    
-    user_id, reason = extract_user_and_text(message, args)
-    reply = check_user(user_id, bot, chat)
-   
 
-    if reply:
+    user_id, reason = extract_user_and_text(message, args)
+    if reply := check_user(user_id, bot, chat):
         message.reply_text(reply)
         return ""
 
-    
+
     member = chat.get_member(user_id)
 
     log = (
@@ -91,17 +81,22 @@ def mute(update: Update, context: CallbackContext) -> str:
 
     if member.can_send_messages is None or member.can_send_messages:
         chat_permissions = ChatPermissions(can_send_messages=False)
-        bot.restrict_chat_member(chat.id, user_id, chat_permissions)    
+        bot.restrict_chat_member(chat.id, user_id, chat_permissions)
         msg = (
             f"{mention_html(member.user.id, member.user.first_name)} [<code>{member.user.id}</code>] Is now 🔇 Muted."
             )
         if reason:
             msg += f"\nReason: {html.escape(reason)}"
 
-        keyboard = InlineKeyboardMarkup([[
-            InlineKeyboardButton(
-                "🔄  Unmute", callback_data="unmute_({})".format(member.user.id))
-        ]])
+        keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "🔄  Unmute", callback_data=f"unmute_({member.user.id})"
+                    )
+                ]
+            ]
+        )
         bot.sendMessage(
             chat.id,
             msg,
@@ -162,11 +157,9 @@ def unmute(update: Update, context: CallbackContext) -> str:
         except BadRequest:
             pass
         bot.sendMessage(
-        chat.id,
-        "{} [<code>{}</code>] Was 🔊 Unmuted.".format(
-            mention_html(member.user.id, member.user.first_name), member.user.id
-        ),
-        parse_mode=ParseMode.HTML,
+            chat.id,
+            f"{mention_html(member.user.id, member.user.first_name)} [<code>{member.user.id}</code>] Was 🔊 Unmuted.",
+            parse_mode=ParseMode.HTML,
         )
         return (
             f"<b>{html.escape(chat.title)}:</b>\n"
@@ -189,10 +182,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
 
     user_id, reason = extract_user_and_text(message, args)
-    reply = check_user(user_id, bot, chat)
-
-
-    if reply:
+    if reply := check_user(user_id, bot, chat):
         message.reply_text(reply)
         return ""
 
@@ -226,16 +216,22 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
             chat_permissions = ChatPermissions(can_send_messages=False)
             bot.restrict_chat_member(
                 chat.id, user_id, chat_permissions, until_date=mutetime,
-            )     
+            )
             msg = (
                 f"{mention_html(member.user.id, member.user.first_name)} [<code>{member.user.id}</code>] Is now 🔇 Muted"
                 f"\n\nMuted for: (<code>{time_val}</code>)\n"
             )
 
-            keyboard = InlineKeyboardMarkup([[
-                InlineKeyboardButton(
-                    "🔄  Unmute", callback_data="unmute_({})".format(member.user.id))
-            ]])
+            keyboard = InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            "🔄  Unmute",
+                            callback_data=f"unmute_({member.user.id})",
+                        )
+                    ]
+                ]
+            )
             bot.sendMessage(chat.id, msg, reply_markup=keyboard, parse_mode=ParseMode.HTML)
 
             return log
@@ -265,9 +261,8 @@ def button(update: Update, context: CallbackContext) -> str:
     query: Optional[CallbackQuery] = update.callback_query
     user: Optional[User] = update.effective_user
     bot: Optional[Bot] = context.bot
-    match = re.match(r"unmute_\((.+?)\)", query.data)
-    if match:
-        user_id = match.group(1)
+    if match := re.match(r"unmute_\((.+?)\)", query.data):
+        user_id = match[1]
         chat: Optional[Chat] = update.effective_chat
         member = chat.get_member(user_id)
         chat_permissions = ChatPermissions (
@@ -279,20 +274,21 @@ def button(update: Update, context: CallbackContext) -> str:
                 can_send_media_messages=True,
                 can_send_other_messages=True,
                 can_add_web_page_previews=True
-        )                
-        unmuted = bot.restrict_chat_member(chat.id, int(user_id), chat_permissions)
-        if unmuted:
-        	update.effective_message.edit_text(
-        	    f"{mention_html(member.user.id, member.user.first_name)} [<code>{member.user.id}</code>] Now can 🔊 speak again.",
-        	    parse_mode=ParseMode.HTML,
-        	)
-        	query.answer("Unmuted!")
-        	return (
-                    f"<b>{html.escape(chat.title)}:</b>\n" 
-                    f"#UNMUTE\n" 
-                    f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                    f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
-                )
+        )
+        if unmuted := bot.restrict_chat_member(
+            chat.id, int(user_id), chat_permissions
+        ):
+            update.effective_message.edit_text(
+                f"{mention_html(member.user.id, member.user.first_name)} [<code>{member.user.id}</code>] Now can 🔊 speak again.",
+                parse_mode=ParseMode.HTML,
+            )
+            query.answer("Unmuted!")
+            return (
+                f"<b>{html.escape(chat.title)}:</b>\n" 
+                f"#UNMUTE\n" 
+                f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
+            )
     else:
         update.effective_message.edit_text(
             "⚠️ This user is not muted or has left the group!"
