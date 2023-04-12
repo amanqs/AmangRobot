@@ -148,7 +148,6 @@ def export_data(update, context):
     if user.id != OWNER_ID:
         put_chat(chat_id, new_jam, chat_data)
     note_list = sql.get_all_chat_notes(chat_id)
-    backup = {}
     # button = ""
     buttonlist = []
     namacat = ""
@@ -170,7 +169,7 @@ def export_data(update, context):
                     buttonlist.append((f"{btn.name}", f"{btn.url}", True))
                 else:
                     buttonlist.append((f"{btn.name}", f"{btn.url}", False))
-            isicat += f"###button###: {note.value}<###button###>{str(buttonlist)}<###splitter###>"
+            isicat += f"###button###: {note.value}<###button###>{buttonlist}<###splitter###>"
             buttonlist.clear()
         elif note.msgtype == 2:
             isicat += f"###sticker###:{note.file}<###splitter###>"
@@ -276,22 +275,21 @@ def export_data(update, context):
         locked_restr = {}
 
     locks = {"locks": locked_lock, "restrict": locked_restr}
-    # Warns (TODO)
-    # warns = warnssql.get_warns(chat_id)
-    # Backing up
-    backup[chat_id] = {
-        "bot": context.bot.id,
-        "hashes": {
-            "info": {"rules": rules},
-            "extra": notes,
-            "blacklist": bl,
-            "disabled": disabledcmd,
-            "locks": locks,
-        },
+    backup = {
+        chat_id: {
+            "bot": context.bot.id,
+            "hashes": {
+                "info": {"rules": rules},
+                "extra": notes,
+                "blacklist": bl,
+                "disabled": disabledcmd,
+                "locks": locks,
+            },
+        }
     }
     baccinfo = json.dumps(backup, indent=4)
     with open(f"AmangRobot{chat_id}.backup", "w") as f:
-        f.write(str(baccinfo))
+        f.write(baccinfo)
     context.bot.sendChatAction(current_chat_id, "upload_document")
     tgl = time.strftime("%H:%M:%S - %d/%m/%Y", time.localtime(time.time()))
     try:
@@ -304,17 +302,13 @@ def export_data(update, context):
         pass
     context.bot.sendDocument(
         current_chat_id,
-        document=open("AmangRobot{}.backup".format(chat_id), "rb"),
-        caption="*Successfully Exported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: This `AmangRobot-Backup` was specially made for notes.".format(
-            chat.title,
-            chat_id,
-            tgl,
-        ),
+        document=open(f"AmangRobot{chat_id}.backup", "rb"),
+        caption=f"*Successfully Exported backup:*\nChat: `{chat.title}`\nChat ID: `{chat_id}`\nOn: `{tgl}`\n\nNote: This `AmangRobot-Backup` was specially made for notes.",
         timeout=360,
         reply_to_message_id=msg.message_id,
         parse_mode=ParseMode.MARKDOWN,
     )
-    os.remove("AmangRobot{}.backup".format(chat_id))  # Cleaning file
+    os.remove(f"AmangRobot{chat_id}.backup")
 
 
 # Temporary data

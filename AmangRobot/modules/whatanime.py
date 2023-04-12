@@ -93,6 +93,9 @@ def memory_file(name=None, contents=None, *, _bytes=True):
 def is_gif(file):
     # ngl this should be fixed, telethon.utils.is_gif but working
     # lazy to go to github and make an issue kek
-    if not is_video(file):
-        return False
-    return DocumentAttributeAnimated() in getattr(file, "document", file).attributes
+    return (
+        DocumentAttributeAnimated()
+        in getattr(file, "document", file).attributes
+        if is_video(file)
+        else False
+    )

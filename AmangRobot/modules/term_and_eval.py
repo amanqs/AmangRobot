@@ -92,7 +92,7 @@ async def terminal(client, message):
                         err
                     )
                 )
-            output += "**{}**\n".format(code)
+            output += f"**{code}**\n"
             output += process.stdout.read()[:-1].decode("utf-8")
             output += "\n"
     else:
@@ -108,7 +108,7 @@ async def terminal(client, message):
             errors = traceback.format_exception(
                 etype=exc_type, value=exc_obj, tb=exc_tb
             )
-            await message.reply("""**Error:**\n```{}```""".format("".join(errors)))
+            await message.reply(f"""**Error:**\n```{"".join(errors)}```""")
             return
         output = process.stdout.read()[:-1].decode("utf-8")
     if str(output) == "\n":
