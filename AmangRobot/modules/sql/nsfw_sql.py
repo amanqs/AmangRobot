@@ -18,11 +18,7 @@ INSERTION_LOCK = threading.RLock()
 
 def is_nsfw(chat_id):
     try:
-        chat = SESSION.query(NSFWChats).get(str(chat_id))
-        if chat:
-            return True
-        else:
-            return False
+        return bool(chat := SESSION.query(NSFWChats).get(str(chat_id)))
     finally:
         SESSION.close()
 
@@ -36,8 +32,7 @@ def set_nsfw(chat_id):
 
 def rem_nsfw(chat_id):
     with INSERTION_LOCK:
-        nsfwchat = SESSION.query(NSFWChats).get(str(chat_id))
-        if nsfwchat:
+        if nsfwchat := SESSION.query(NSFWChats).get(str(chat_id)):
             SESSION.delete(nsfwchat)
         SESSION.commit()
 

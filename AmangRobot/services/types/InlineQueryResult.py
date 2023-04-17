@@ -69,7 +69,7 @@ class InlineQueryResultAudio(InlineQueryResult):
 
         self.audio_url = audio_url
         self.thumb_url = thumb_url
-        self.voice = bool(mime_type == "audio/ogg")
+        self.voice = mime_type == "audio/ogg"
         self.title = title
         self.caption = caption
         self.description = description
